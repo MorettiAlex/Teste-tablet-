@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caça-Palavras: Sistemas Anatômicos</title>
+  <style>
+    * { box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { display: flex; flex-direction: column; align-items: center; background: #f4f6f9; margin: 20px; }
+    h1 { color: #2c3e50; margin-bottom: 5px; }
+    p { color: #555; margin-bottom: 20px; text-align: center; }
+    .container { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
+    #grid { 
+      display: grid; 
+      grid-template-columns: repeat(20, 28px); 
+      gap: 2px; 
+      background: #ccc; 
+      padding: 5px; 
+      border-radius: 8px;
+      user-select: none;
+    }
+    .cell { 
+      width: 28px; 
+      height: 28px; 
+      background: #fff; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-weight: bold; 
+      cursor: pointer; 
+      border-radius: 4px; 
+      font-size: 14px;
+    }
+    .cell.selected { background: #ffeaa7; }
+    .cell.found { background: #55efc4 !important; color: #00b894; }
+    .sidebar { max-width: 360px; background: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .system-title { font-weight: bold; margin-top: 10px; color: #0984e3; border-bottom: 1px solid #eee; padding-bottom: 3px; }
+    ul { list-style: none; padding: 0; margin: 5px 0 15px 0; display: flex; flex-wrap: wrap; gap: 6px; }
+    li { background: #f1f2f6; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
+    li.found-word { background: #55efc4; text-decoration: line-through; color: #2d3436; }
+  </style>
+</head>
+<body>
+
+  <h1>Caça-Palavras Anatômico</h1>
+  <p>Encontre as 30 palavras (horizontal, vertical e diagonais em ambos os sentidos).</p>
+
+  <div class="container">
+    <div id="grid"></div>
+    <div class="sidebar" id="word-list"></div>
+  </div>
+
+<script>
+const wordsBySystem = {
+  "Sistema Nervoso": ["NEURONIO", "CEREBRO", "SINAPSE", "AXONIO", "DENDRITO", "MEDULA"],
+  "Sistema Muscular": ["BICEPS", "TRICEPS", "MIOCARDIO", "TENDAO", "ACTINA", "MIOSINA"],
+  "Sistema Esquelético": ["FEMUR", "CRANIO", "COSTELA", "VERTEBRA", "CARTILAGEM", "OSTEOBLASTO"],
+  "Sistema Linfático": ["LINFOCITO", "LINFONODO", "TIMO", "BACO", "LINFA", "CAPILAR"],
+  "Sistema Imunitário": ["ANTICORPO", "ANTIGENO", "VACINA", "MACROFAGO", "LEUCOCITO", "IMUNIDADE"]
+};
+
+const GRID_SIZE = 20;
+const grid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(''));
+const directions = [
+  [0, 1],   // Direita
+  [1, 0],   // Baixo
+  [1, 1],   // Diagonal Baixo-Direita
+  [-1, 1],  // Diagonal Cima-Direita
+  [0, -1],  // Esquerda
+  [-1, 0],  // Cima
+  [-1, -1], // Diagonal Cima-Esquerda
+  [1, -1]   // Diagonal Baixo-Esquerda
+];
+
+// Inserção das palavras na grade
+Object.values(wordsBySystem).flat().forEach(word => {
+  let placed = false;
+  while (!placed) {
+    const dir = directions[Math.floor(Math.random() * directions.length)];
+    const row = Math.floor(Math.random() * GRID_SIZE);
+    const col = Math.floor(Math.random() * GRID_SIZE);
+    
+    if (canPlace(word, row, col, dir)) {
+      for (let i = 0; i < word.length; i++) {
+        grid[row + i * dir[0]][col + i * dir[1]] = word[i];
+      }
+      placed = true;
+    }
+  }
+});
+
+function canPlace(word, r, c, [dr, dc]) {
+  for (let i = 0; i < word.length; i++) {
+    const nr = r + i * dr;
+    const nc = c + i * dc;
+    if (nr < 0 || nr >= GRID_SIZE || nc < 0 || nc >= GRID_SIZE) return false;
+    if (grid[nr][nc] !== '' && grid[nr][nc] !== word[i]) return false;
+  }
+  return true;
+}
+
+// Preencher espaços vazios com letras aleatórias
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+for (let r = 0; r < GRID_SIZE; r++) {
+  for (let c = 0; c < GRID_SIZE; c++) {
+    if (!grid[r][c]) grid[r][c] = letters[Math.floor(Math.random() * letters.length)];
+  }
+}
+
+// Renderização na tela
+const gridEl = document.getElementById('grid');
+grid.forEach((row, r) => {
+  row.forEach((char, c) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = char;
+    cell.dataset.row = r;
+    cell.dataset.col = c;
+    gridEl.appendChild(cell);
+  });
+});
+
+const wordListEl = document.getElementById('word-list');
+Object.entries(wordsBySystem).forEach(([system, words]) => {
+  const title = document.createElement('div');
+  title.className = 'system-title';
+  title.textContent = system;
+  wordListEl.appendChild(title);
+  
+  const ul = document.createElement('ul');
+  words.forEach(w => {
+    const li = document.createElement('li');
+    li.id = `word-${w}`;
+    li.textContent = w;
+    ul.appendChild(li);
+  });
+  wordListEl.appendChild(ul);
+});
+
+// Lógica de seleção
+let selectedCells = [];
+let isSelecting = false;
+
+gridEl.addEventListener('mousedown', (e) => {
+  if (e.target.classList.contains('cell')) {
+    isSelecting = true;
+    clearSelection();
+    selectCell(e.target);
+  }
+});
+
+gridEl.addEventListener('mouseover', (e) => {
+  if (isSelecting && e.target.classList.contains('cell')) {
+    selectCell(e.target);
+  }
+});
+
+window.addEventListener('mouseup', () => {
+  if (isSelecting) {
+    isSelecting = false;
+    checkWord();
+  }
+});
+
+function selectCell(cell) {
+  if (!selectedCells.includes(cell)) {
+    selectedCells.push(cell);
+    cell.classList.add('selected');
+  }
+}
+
+function clearSelection() {
+  selectedCells.forEach(c => c.classList.remove('selected'));
+  selectedCells = [];
+}
+
+function checkWord() {
+  const selectedText = selectedCells.map(c => c.textContent).join('');
+  const reverseText = selectedText.split('').reverse().join('');
+  
+  const allWords = Object.values(wordsBySystem).flat();
+  const found = allWords.find(w => w === selectedText || w === reverseText);
+
+  if (found) {
+    selectedCells.forEach(c => c.classList.add('found'));
+    document.getElementById(`word-${found}`).classList.add('found-word');
+  }
+  clearSelection();
+}
+</script>
+</body>
+</html>
