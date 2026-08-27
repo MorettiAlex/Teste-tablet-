@@ -1,192 +1,347 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caça-Palavras: Sistemas Anatômicos</title>
-  <style>
-    * { box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { display: flex; flex-direction: column; align-items: center; background: #f4f6f9; margin: 20px; }
-    h1 { color: #2c3e50; margin-bottom: 5px; }
-    p { color: #555; margin-bottom: 20px; text-align: center; }
-    .container { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
-    #grid { 
-      display: grid; 
-      grid-template-columns: repeat(20, 28px); 
-      gap: 2px; 
-      background: #ccc; 
-      padding: 5px; 
-      border-radius: 8px;
-      user-select: none;
-    }
-    .cell { 
-      width: 28px; 
-      height: 28px; 
-      background: #fff; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      font-weight: bold; 
-      cursor: pointer; 
-      border-radius: 4px; 
-      font-size: 14px;
-    }
-    .cell.selected { background: #ffeaa7; }
-    .cell.found { background: #55efc4 !important; color: #00b894; }
-    .sidebar { max-width: 360px; background: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .system-title { font-weight: bold; margin-top: 10px; color: #0984e3; border-bottom: 1px solid #eee; padding-bottom: 3px; }
-    ul { list-style: none; padding: 0; margin: 5px 0 15px 0; display: flex; flex-wrap: wrap; gap: 6px; }
-    li { background: #f1f2f6; padding: 4px 8px; border-radius: 4px; font-size: 12px; }
-    li.found-word { background: #55efc4; text-decoration: line-through; color: #2d3436; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelos de Moluscos para Imprimir</title>
+    <style>
+        /* Configurações de página para impressão A4 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Container que simula a folha A4 */
+        .pagina-a4 {
+            background: white;
+            width: 210mm;
+            height: 297mm;
+            padding: 20mm;
+            margin: 10mm auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            page-break-after: always; /* Força o corte de página na impressão */
+            position: relative;
+        }
+
+        /* Cabeçalho pedagógico */
+        .cabecalho {
+            width: 100%;
+            border-bottom: 2px dashed #000;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .cabecalho h1 {
+            font-size: 24px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        .cabecalho .info-aluno {
+            margin-top: 15px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Área do desenho */
+        .area-desenho {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Legenda inferior */
+        .legenda {
+            text-align: center;
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+            width: 100%;
+        }
+        .legenda h2 {
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+        .legenda p {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        /* ========================================================
+           ARTE EM CSS (Estrutura dos Moluscos - Estilo Linha/Traço)
+           ======================================================== */
+        
+        .molusco-arte {
+            position: relative;
+            border: 2px transparent solid;
+        }
+
+        /* 1. POLVO */
+        .polvo {
+            width: 300px;
+            height: 300px;
+        }
+        .polvo .cabeca {
+            width: 140px;
+            height: 140px;
+            border: 4px solid #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 20px;
+            left: 80px;
+            background: #fff;
+        }
+        .polvo .olho {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+            background: #fff;
+        }
+        .polvo .olho.esq { left: 30px; }
+        .polvo .olho.dir { right: 30px; }
+        .polvo .olho::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+        }
+        .polvo .sorriso {
+            width: 30px;
+            height: 15px;
+            border-bottom: 3px solid #000;
+            border-radius: 0 0 15px 15px;
+            position: absolute;
+            top: 90px;
+            left: 55px;
+        }
+        /* Tentáculos do Polvo */
+        .polvo .tentaculo {
+            width: 40px;
+            height: 100px;
+            border: 4px solid #000;
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            position: absolute;
+            top: 150px;
+            background: #fff;
+        }
+        .polvo .t1 { left: 40px; transform: rotate(20deg); }
+        .polvo .t2 { left: 90px; height: 120px; }
+        .polvo .t3 { left: 140px; height: 120px; }
+        .polvo .t4 { left: 190px; transform: rotate(-20deg); }
+
+        /* 2. LULA */
+        .lula {
+            width: 300px;
+            height: 350px;
+        }
+        .lula .corpo {
+            width: 100px;
+            height: 180px;
+            border: 4px solid #000;
+            border-radius: 50% 50% 20% 20% / 80% 80% 20% 20%;
+            position: absolute;
+            top: 40px;
+            left: 100px;
+            background: #fff;
+            z-index: 2;
+        }
+        .lula .barbatana {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 70px solid #000;
+            position: absolute;
+            top: 20px;
+            left: 100px;
+        }
+        .lula .barbatana::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 44px solid transparent;
+            border-right: 44px solid transparent;
+            border-bottom: 62px solid #fff;
+            top: 6px;
+            left: -44px;
+        }
+        .lula .olho {
+            width: 18px;
+            height: 18px;
+            border: 3px solid #000;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 30px;
+            background: #fff;
+        }
+        .lula .olho.esq { left: 20px; }
+        .lula .olho.dir { right: 20px; }
+        .lula .tentaculo-longo {
+            width: 16px;
+            height: 140px;
+            border: 4px solid #000;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            position: absolute;
+            top: 210px;
+            background: #fff;
+        }
+        .lula .tl1 { left: 110px; }
+        .lula .tl2 { left: 160px; }
+
+        /* 3. CARACOL */
+        .caracol {
+            width: 350px;
+            height: 250px;
+        }
+        .caracol .corpo-lesma {
+            width: 260px;
+            height: 50px;
+            border: 4px solid #000;
+            border-radius: 30px;
+            position: absolute;
+            bottom: 30px;
+            left: 20px;
+            background: #fff;
+        }
+        .caracol .concha {
+            width: 160px;
+            height: 160px;
+            border: 4px solid #000;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Espiral interna da concha */
+        .caracol .espiral-1 {
+            width: 110px;
+            height: 110px;
+            border: 4px solid #000;
+            border-radius: 50%;
+            border-bottom-color: transparent;
+            transform: rotate(45deg);
+        }
+        .caracol .antena {
+            width: 4px;
+            height: 40px;
+            background: #000;
+            position: absolute;
+            bottom: 70px;
+            left: 240px;
+            transform-origin: bottom center;
+        }
+        .caracol .antena.a1 { transform: rotate(-15deg); left: 240px;}
+        .caracol .antena.a2 { transform: rotate(15deg); left: 255px;}
+        .caracol .antena::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            border: 3px solid #000;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            left: -4px;
+        }
+
+        /* 4. LESMA */
+        .lesma {
+            width: 350px;
+            height: 200px;
+        }
+        .lesma .base {
+            width: 280px;
+            height: 60px;
+            border: 4px solid #000;
+            border-radius: 50% 50% 40% 40% / 100% 100% 30% 30%;
+            position: absolute;
+            bottom: 20px;
+            left: 30px;
+            background: #fff;
+        }
+        .lesma .antena-lesma {
+            width: 4px;
+            height: 45px;
+            background: #000;
+            position: absolute;
+            top: 45px;
+            left: 270px;
+        }
+        .lesma .al1 { transform: rotate(10deg); left: 270px; }
+        .lesma .al2 { transform: rotate(-10deg); left: 285px; }
+        .lesma .antena-lesma::before {
+            content: '';
+            width: 14px;
+            height: 14px;
+            border: 3px solid #000;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            top: -12px;
+            left: -5px;
+        }
+        .lesma .olho-ponto {
+            width: 6px;
+            height: 6px;
+            background: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 85px;
+            left: 260px;
+        }
+
+        /* Oculta os fundos cinzas e margens da tela na hora de imprimir */
+        @media print {
+            body { background: white; }
+            .pagina-a4 {
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Caça-Palavras Anatômico</h1>
-  <p>Encontre as 30 palavras (horizontal, vertical e diagonais em ambos os sentidos).</p>
-
-  <div class="container">
-    <div id="grid"></div>
-    <div class="sidebar" id="word-list"></div>
-  </div>
-
-<script>
-const wordsBySystem = {
-  "Sistema Nervoso": ["NEURONIO", "CEREBRO", "SINAPSE", "AXONIO", "DENDRITO", "MEDULA"],
-  "Sistema Muscular": ["BICEPS", "TRICEPS", "MIOCARDIO", "TENDAO", "ACTINA", "MIOSINA"],
-  "Sistema Esquelético": ["FEMUR", "CRANIO", "COSTELA", "VERTEBRA", "CARTILAGEM", "OSTEOBLASTO"],
-  "Sistema Linfático": ["LINFOCITO", "LINFONODO", "TIMO", "BACO", "LINFA", "CAPILAR"],
-  "Sistema Imunitário": ["ANTICORPO", "ANTIGENO", "VACINA", "MACROFAGO", "LEUCOCITO", "IMUNIDADE"]
-};
-
-const GRID_SIZE = 20;
-const grid = Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill(''));
-const directions = [
-  [0, 1],   // Direita
-  [1, 0],   // Baixo
-  [1, 1],   // Diagonal Baixo-Direita
-  [-1, 1],  // Diagonal Cima-Direita
-  [0, -1],  // Esquerda
-  [-1, 0],  // Cima
-  [-1, -1], // Diagonal Cima-Esquerda
-  [1, -1]   // Diagonal Baixo-Esquerda
-];
-
-// Inserção das palavras na grade
-Object.values(wordsBySystem).flat().forEach(word => {
-  let placed = false;
-  while (!placed) {
-    const dir = directions[Math.floor(Math.random() * directions.length)];
-    const row = Math.floor(Math.random() * GRID_SIZE);
-    const col = Math.floor(Math.random() * GRID_SIZE);
-    
-    if (canPlace(word, row, col, dir)) {
-      for (let i = 0; i < word.length; i++) {
-        grid[row + i * dir[0]][col + i * dir[1]] = word[i];
-      }
-      placed = true;
-    }
-  }
-});
-
-function canPlace(word, r, c, [dr, dc]) {
-  for (let i = 0; i < word.length; i++) {
-    const nr = r + i * dr;
-    const nc = c + i * dc;
-    if (nr < 0 || nr >= GRID_SIZE || nc < 0 || nc >= GRID_SIZE) return false;
-    if (grid[nr][nc] !== '' && grid[nr][nc] !== word[i]) return false;
-  }
-  return true;
-}
-
-// Preencher espaços vazios com letras aleatórias
-const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-for (let r = 0; r < GRID_SIZE; r++) {
-  for (let c = 0; c < GRID_SIZE; c++) {
-    if (!grid[r][c]) grid[r][c] = letters[Math.floor(Math.random() * letters.length)];
-  }
-}
-
-// Renderização na tela
-const gridEl = document.getElementById('grid');
-grid.forEach((row, r) => {
-  row.forEach((char, c) => {
-    const cell = document.createElement('div');
-    cell.className = 'cell';
-    cell.textContent = char;
-    cell.dataset.row = r;
-    cell.dataset.col = c;
-    gridEl.appendChild(cell);
-  });
-});
-
-const wordListEl = document.getElementById('word-list');
-Object.entries(wordsBySystem).forEach(([system, words]) => {
-  const title = document.createElement('div');
-  title.className = 'system-title';
-  title.textContent = system;
-  wordListEl.appendChild(title);
-  
-  const ul = document.createElement('ul');
-  words.forEach(w => {
-    const li = document.createElement('li');
-    li.id = `word-${w}`;
-    li.textContent = w;
-    ul.appendChild(li);
-  });
-  wordListEl.appendChild(ul);
-});
-
-// Lógica de seleção
-let selectedCells = [];
-let isSelecting = false;
-
-gridEl.addEventListener('mousedown', (e) => {
-  if (e.target.classList.contains('cell')) {
-    isSelecting = true;
-    clearSelection();
-    selectCell(e.target);
-  }
-});
-
-gridEl.addEventListener('mouseover', (e) => {
-  if (isSelecting && e.target.classList.contains('cell')) {
-    selectCell(e.target);
-  }
-});
-
-window.addEventListener('mouseup', () => {
-  if (isSelecting) {
-    isSelecting = false;
-    checkWord();
-  }
-});
-
-function selectCell(cell) {
-  if (!selectedCells.includes(cell)) {
-    selectedCells.push(cell);
-    cell.classList.add('selected');
-  }
-}
-
-function clearSelection() {
-  selectedCells.forEach(c => c.classList.remove('selected'));
-  selectedCells = [];
-}
-
-function checkWord() {
-  const selectedText = selectedCells.map(c => c.textContent).join('');
-  const reverseText = selectedText.split('').reverse().join('');
-  
-  const allWords = Object.values(wordsBySystem).flat();
-  const found = allWords.find(w => w === selectedText || w === reverseText);
-
-  if (found) {
-    selectedCells.forEach(c => c.classList.add('found'));
-    document.getElementById(`word-${found}`).classList.add('found-word');
-  }
-  clearSelection();
-}
-</script>
-</body>
-</html>
+    <!-- PÁGINA 1: POLVO -->
+    <div class="pagina-a4">
+        <div class="cabecalho">
+            <h1>Estudo dos Moluscos • Ciências</h1>
+            <div class="info-aluno">
+                <span><strong>Aluno(a):</strong> ________________________________________</span>
+                <span><strong>Data:</strong> ____/____/2026</span>
+            </div>
+        </div>
+        <div class="area-desenho">
+            <div class="molusco-arte polvo">
+                <div class="cabeca">
+                    <div class="olho esq"></div>
