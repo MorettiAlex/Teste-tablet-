@@ -3,345 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modelos de Moluscos para Imprimir</title>
+    <title>Doodles de Moluscos - A4</title>
     <style>
-        /* Configurações de página para impressão A4 */
-        * {
-            box-sizing: border-box;
+        /* Configuração de página para impressão A4 */
+        @page {
+            size: A4;
             margin: 0;
-            padding: 0;
         }
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            background-color: #fafafa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
         }
-        
-        /* Container que simula a folha A4 */
-        .pagina-a4 {
-            background: white;
+        /* Container que simula a folha A4 na tela e configura a impressão */
+        .page-a4 {
             width: 210mm;
             height: 297mm;
+            background-color: #ffffff;
+            box-sizing: border-box;
             padding: 20mm;
-            margin: 10mm auto;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 10mm;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            text-align: center;
+            font-size: 28px;
+            color: #333;
+            margin: 0 0 5px 0;
+            border-bottom: 3px dashed #ccc;
+            padding-bottom: 10px;
+        }
+        header p {
+            text-align: center;
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+        /* Grid 2x2 para distribuir os 4 moluscos igualmente */
+        .doodle-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 15mm;
+        }
+        .doodle-card {
+            border: 2px dashed #ddd;
+            border-radius: 15px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             align-items: center;
-            page-break-after: always; /* Força o corte de página na impressão */
-            position: relative;
-        }
-
-        /* Cabeçalho pedagógico */
-        .cabecalho {
-            width: 100%;
-            border-bottom: 2px dashed #000;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        .cabecalho h1 {
-            font-size: 24px;
-            text-align: center;
-            text-transform: uppercase;
-        }
-        .cabecalho .info-aluno {
-            margin-top: 15px;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* Área do desenho */
-        .area-desenho {
-            flex: 1;
-            display: flex;
             justify-content: center;
-            align-items: center;
-            width: 100%;
+            padding: 10px;
             position: relative;
         }
-
-        /* Legenda inferior */
-        .legenda {
-            text-align: center;
-            margin-top: 20px;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
-            width: 100%;
+        .doodle-card svg {
+            width: 80%;
+            height: 75%;
         }
-        .legenda h2 {
-            font-size: 28px;
+        .label {
+            font-size: 18px;
+            font-weight: bold;
+            color: #444;
+            margin-top: 10px;
+            text-transform: uppercase;
             letter-spacing: 2px;
         }
-        .legenda p {
-            font-size: 14px;
-            color: #555;
-            margin-top: 5px;
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
         }
-
-        /* ========================================================
-           ARTE EM CSS (Estrutura dos Moluscos - Estilo Linha/Traço)
-           ======================================================== */
-        
-        .molusco-arte {
-            position: relative;
-            border: 2px transparent solid;
-        }
-
-        /* 1. POLVO */
-        .polvo {
-            width: 300px;
-            height: 300px;
-        }
-        .polvo .cabeca {
-            width: 140px;
-            height: 140px;
-            border: 4px solid #000;
-            border-radius: 50%;
-            position: absolute;
-            top: 20px;
-            left: 80px;
-            background: #fff;
-        }
-        .polvo .olho {
-            width: 20px;
-            height: 20px;
-            border: 3px solid #000;
-            border-radius: 50%;
-            position: absolute;
-            top: 60px;
-            background: #fff;
-        }
-        .polvo .olho.esq { left: 30px; }
-        .polvo .olho.dir { right: 30px; }
-        .polvo .olho::after {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: #000;
-            border-radius: 50%;
-            position: absolute;
-            top: 4px;
-            left: 4px;
-        }
-        .polvo .sorriso {
-            width: 30px;
-            height: 15px;
-            border-bottom: 3px solid #000;
-            border-radius: 0 0 15px 15px;
-            position: absolute;
-            top: 90px;
-            left: 55px;
-        }
-        /* Tentáculos do Polvo */
-        .polvo .tentaculo {
-            width: 40px;
-            height: 100px;
-            border: 4px solid #000;
-            border-top: none;
-            border-radius: 0 0 20px 20px;
-            position: absolute;
-            top: 150px;
-            background: #fff;
-        }
-        .polvo .t1 { left: 40px; transform: rotate(20deg); }
-        .polvo .t2 { left: 90px; height: 120px; }
-        .polvo .t3 { left: 140px; height: 120px; }
-        .polvo .t4 { left: 190px; transform: rotate(-20deg); }
-
-        /* 2. LULA */
-        .lula {
-            width: 300px;
-            height: 350px;
-        }
-        .lula .corpo {
-            width: 100px;
-            height: 180px;
-            border: 4px solid #000;
-            border-radius: 50% 50% 20% 20% / 80% 80% 20% 20%;
-            position: absolute;
-            top: 40px;
-            left: 100px;
-            background: #fff;
-            z-index: 2;
-        }
-        .lula .barbatana {
-            width: 0;
-            height: 0;
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-            border-bottom: 70px solid #000;
-            position: absolute;
-            top: 20px;
-            left: 100px;
-        }
-        .lula .barbatana::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 44px solid transparent;
-            border-right: 44px solid transparent;
-            border-bottom: 62px solid #fff;
-            top: 6px;
-            left: -44px;
-        }
-        .lula .olho {
-            width: 18px;
-            height: 18px;
-            border: 3px solid #000;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 30px;
-            background: #fff;
-        }
-        .lula .olho.esq { left: 20px; }
-        .lula .olho.dir { right: 20px; }
-        .lula .tentaculo-longo {
-            width: 16px;
-            height: 140px;
-            border: 4px solid #000;
-            border-top: none;
-            border-radius: 0 0 8px 8px;
-            position: absolute;
-            top: 210px;
-            background: #fff;
-        }
-        .lula .tl1 { left: 110px; }
-        .lula .tl2 { left: 160px; }
-
-        /* 3. CARACOL */
-        .caracol {
-            width: 350px;
-            height: 250px;
-        }
-        .caracol .corpo-lesma {
-            width: 260px;
-            height: 50px;
-            border: 4px solid #000;
-            border-radius: 30px;
-            position: absolute;
-            bottom: 30px;
-            left: 20px;
-            background: #fff;
-        }
-        .caracol .concha {
-            width: 160px;
-            height: 160px;
-            border: 4px solid #000;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 60px;
-            left: 60px;
-            background: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        /* Espiral interna da concha */
-        .caracol .espiral-1 {
-            width: 110px;
-            height: 110px;
-            border: 4px solid #000;
-            border-radius: 50%;
-            border-bottom-color: transparent;
-            transform: rotate(45deg);
-        }
-        .caracol .antena {
-            width: 4px;
-            height: 40px;
-            background: #000;
-            position: absolute;
-            bottom: 70px;
-            left: 240px;
-            transform-origin: bottom center;
-        }
-        .caracol .antena.a1 { transform: rotate(-15deg); left: 240px;}
-        .caracol .antena.a2 { transform: rotate(15deg); left: 255px;}
-        .caracol .antena::before {
-            content: '';
-            width: 12px;
-            height: 12px;
-            border: 3px solid #000;
-            background: #fff;
-            border-radius: 50%;
-            position: absolute;
-            top: -10px;
-            left: -4px;
-        }
-
-        /* 4. LESMA */
-        .lesma {
-            width: 350px;
-            height: 200px;
-        }
-        .lesma .base {
-            width: 280px;
-            height: 60px;
-            border: 4px solid #000;
-            border-radius: 50% 50% 40% 40% / 100% 100% 30% 30%;
-            position: absolute;
-            bottom: 20px;
-            left: 30px;
-            background: #fff;
-        }
-        .lesma .antena-lesma {
-            width: 4px;
-            height: 45px;
-            background: #000;
-            position: absolute;
-            top: 45px;
-            left: 270px;
-        }
-        .lesma .al1 { transform: rotate(10deg); left: 270px; }
-        .lesma .al2 { transform: rotate(-10deg); left: 285px; }
-        .lesma .antena-lesma::before {
-            content: '';
-            width: 14px;
-            height: 14px;
-            border: 3px solid #000;
-            background: #fff;
-            border-radius: 50%;
-            position: absolute;
-            top: -12px;
-            left: -5px;
-        }
-        .lesma .olho-ponto {
-            width: 6px;
-            height: 6px;
-            background: #000;
-            border-radius: 50%;
-            position: absolute;
-            top: 85px;
-            left: 260px;
-        }
-
-        /* Oculta os fundos cinzas e margens da tela na hora de imprimir */
+        /* Ajustes específicos para quando for imprimir */
         @media print {
-            body { background: white; }
-            .pagina-a4 {
-                margin: 0;
+            body {
+                background: none;
+            }
+            .page-a4 {
                 box-shadow: none;
-                page-break-after: always;
+                width: 210mm;
+                height: 297mm;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- PÁGINA 1: POLVO -->
-    <div class="pagina-a4">
-        <div class="cabecalho">
-            <h1>Estudo dos Moluscos • Ciências</h1>
-            <div class="info-aluno">
-                <span><strong>Aluno(a):</strong> ________________________________________</span>
-                <span><strong>Data:</strong> ____/____/2026</span>
+    <div class="page-a4">
+        <header>
+            <h1>Mundo dos Moluscos</h1>
+            <p>Estilo Doodle para Colorir e Estudar</p>
+        </header>
+
+        <div class="doodle-grid">
+            <!-- 1. POLVO -->
+            <div class="doodle-card">
+                <svg viewBox="0 0 100 100" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Cabeça/Corpo -->
+                    <path d="M30 45 C25 15, 75 15, 70 45 C70 52, 30 52, 30 45 Z" />
+                    <!-- Olhos fofos -->
+                    <circle cx="43" cy="38" r="3" fill="#222" />
+                    <circle cx="57" cy="38" r="3" fill="#222" />
+                    <!-- Sorriso -->
+                    <path d="M47 44 Q50 47 53 44" />
+                    <!-- Tentáculos (Estilo ondulado doodle) -->
+                    <path d="M35 50 Q20 60 25 75 Q28 85 35 75 Q40 65 38 52" />
+                    <path d="M43 51 Q35 70 45 85 Q50 85 47 70 Q45 52 46 51" />
+                    <path d="M54 51 Q65 70 55 85 Q50 85 53 70 Q55 52 54 51" />
+                    <path d="M65 50 Q80 60 75 75 Q72 85 65 75 Q60 65 62 52" />
+                    <!-- Detalhes de ventosas (bolinhas) -->
+                    <circle cx="22" cy="68" r="1" />
+                    <circle cx="28" cy="79" r="1" />
+                    <circle cx="78" cy="68" r="1" />
+                    <circle cx="72" cy="79" r="1" />
+                </svg>
+                <div class="label">Polvo</div>
+            </div>
+
+            <!-- 2. LULA -->
+            <div class="doodle-card">
+                <svg viewBox="0 0 100 100" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Barbatanas triangulares superiores -->
+                    <path d="M50 15 L32 28 L50 25 L68 28 Z" fill="#fff" />
+                    <!-- Corpo principal (Cone) -->
+                    <path d="M35 27 L38 55 C39 60, 61 60, 62 55 L65 27 Z" />
+                    <!-- Olhos -->
+                    <circle cx="44" cy="48" r="2.5" fill="#222" />
+                    <circle cx="56" cy="48" r="2.5" fill="#222" />
+                    <path d="M48 53 Q50 55 52 53" />
+                    <!-- Tentáculos curtos -->
+                    <path d="M40 58 Q38 75 41 78" />
+                    <path d="M45 59 Q44 76 46 79" />
+                    <path d="M55 59 Q56 76 54 79" />
+                    <path d="M60 58 Q62 75 59 78" />
+                    <!-- 2 Tentáculos longos de caça -->
+                    <path d="M37 58 Q30 75 33 88 Q36 90 37 84" />
+                    <path d="M63 58 Q70 75 67 88 Q64 90 63 84" />
+                </svg>
+                <div class="label">Lula</div>
+            </div>
+
+            <!-- 3. LESMA -->
+            <div class="doodle-card">
+                <svg viewBox="0 0 100 100" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Corpo rastejante -->
+                    <path d="M15 75 C15 75, 25 72, 40 73 C60 74, 75 68, 85 58 C88 55, 92 63, 85 68 C75 76, 50 78, 15 77 Z" />
+                    <!-- Cabeça alongada -->
+                    <path d="M78 60 C82 55, 87 40, 78 35 C72 32, 68 45, 68 55" />
+                    <!-- Antenas/Tentáculos oculares -->
+                    <path d="M74 34 Q72 20 74 18" />
+                    <circle cx="74" cy="17" r="1.5" fill="#222" />
+                    <path d="M78 34 Q82 22 84 20" />
+                    <circle cx="84" cy="19" r="1.5" fill="#222" />
+                    <!-- Detalhes do rosto -->
+                    <circle cx="75" cy="40" r="1.5" fill="#222" />
+                    <path d="M77 44 Q75 46 73 44" />
+                    <!-- Textura de pele (traços doodle) -->
+                    <path d="M35 74 Q38 71 42 74" />
+                    <path d="M50 74 Q53 71 57 74" />
+                </svg>
+                <div class="label">Lesma</div>
+            </div>
+
+            <!-- 4. CARACOL -->
+            <div class="doodle-card">
+                <svg viewBox="0 0 100 100" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <!-- Pé/Corpo de baixo -->
+                    <path d="M15 75 C30 75, 40 75, 55 75 C70 75, 80 70, 85 55 C88 48, 78 45, 75 55 C72 60, 65 68, 50 68" />
+                    <!-- Antenas com olhos -->
+                    <path d="M80 50 Q82 35 85 33" />
+                    <circle cx="85" cy="32" r="1.5" fill="#222" />
+                    <path d="M83 52 Q88 39 91 37" />
+                    <circle cx="91" cy="36" r="1.5" fill="#222" />
+                    <!-- Rosto -->
+                    <circle cx="79" cy="55" r="1.5" fill="#222" />
+                    <!-- Concha em Espiral Dedilhada -->
+                    <path d="M45 70 C15 70, 15 30, 45 30 C70 30, 70 65, 48 65 C32 65, 30 42, 45 42 C55 42, 55 55, 46 54" />
+                </svg>
+                <div class="label">Caracol</div>
             </div>
         </div>
-        <div class="area-desenho">
-            <div class="molusco-arte polvo">
-                <div class="cabeca">
-                    <div class="olho esq"></div>
+
+        <footer>
+            Atividade Educativa de Biologia • Moluscos Gastrópodes e Cefalópodes
+        </footer>
+    </div>
+
+</body>
+</html>
